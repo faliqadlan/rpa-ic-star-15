@@ -218,7 +218,7 @@
       <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="833.6000000000001,1182.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="833.6000000000001,1880" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="upr:ILocalResource" Name="ResponseAttachment" />
       <Variable x:TypeArguments="scg:Dictionary(x:String, x:String)" Name="ResponeHeaders" />
@@ -229,6 +229,7 @@
       <Variable x:TypeArguments="x:String" Name="refresh_token" />
       <Variable x:TypeArguments="x:String" Name="response" />
       <Variable x:TypeArguments="x:String" Name="ChosenButton" />
+      <Variable x:TypeArguments="x:String" Name="payload" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -236,7 +237,7 @@
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" Username="{x:Null}" AcceptFormat="ANY" AuthenticationType="None" BodyFormat="application/x-www-form-urlencoded" DisplayName="Make HTTP POST request to &quot;https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token&quot; with headers and data" EnableSSLVerification="True" EndPoint="https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token" sap:VirtualizedContainerService.HintSize="433.6,103.2" sap2010:WorkflowViewState.IdRef="HttpClient_1" Method="POST" ResponseAttachment="[ResponseAttachment]" ResponseHeaders="[ResponeHeaders]" Result="[ResponseContent]" StatusCode="[ResponseStatus]" TimeoutMS="6000">
+    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" Username="{x:Null}" AcceptFormat="ANY" AuthenticationType="None" BodyFormat="application/x-www-form-urlencoded" DisplayName="Make HTTP POST request to &quot;https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token&quot; with headers and data" EnableSSLVerification="True" EndPoint="https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token" sap:VirtualizedContainerService.HintSize="502.4,103.2" sap2010:WorkflowViewState.IdRef="HttpClient_1" Method="POST" ResponseAttachment="[ResponseAttachment]" ResponseHeaders="[ResponeHeaders]" Result="[ResponseContent]" StatusCode="[ResponseStatus]" TimeoutMS="6000">
       <ui:HttpClient.Attachments>
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.Attachments>
@@ -256,7 +257,7 @@
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.UrlSegments>
     </ui:HttpClient>
-    <Assign DisplayName="Save HTTP response to variable 'response'" sap:VirtualizedContainerService.HintSize="433.6,113.6" sap2010:WorkflowViewState.IdRef="Assign_3">
+    <Assign DisplayName="Save HTTP response to variable 'response'" sap:VirtualizedContainerService.HintSize="502.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_3">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[response]</OutArgument>
       </Assign.To>
@@ -264,8 +265,8 @@
         <InArgument x:TypeArguments="x:String">[ResponseContent]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON response" sap:VirtualizedContainerService.HintSize="433.6,122.4" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_1" JsonObject="[JsonResponseObject]" JsonString="[ResponseContent]" />
-    <Assign DisplayName="Assign access_token from response to variable 'access_token'" sap:VirtualizedContainerService.HintSize="433.6,113.6" sap2010:WorkflowViewState.IdRef="Assign_1">
+    <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON response" sap:VirtualizedContainerService.HintSize="502.4,122.4" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_1" JsonObject="[JsonResponseObject]" JsonString="[ResponseContent]" />
+    <Assign DisplayName="Assign access_token from response to variable 'access_token'" sap:VirtualizedContainerService.HintSize="502.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_1">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[access_token]</OutArgument>
       </Assign.To>
@@ -273,7 +274,7 @@
         <InArgument x:TypeArguments="x:String">[JsonResponseObject("access_token").ToString()]</InArgument>
       </Assign.Value>
     </Assign>
-    <Assign DisplayName="Assign refresh_token from response to variable 'refresh_token'" sap:VirtualizedContainerService.HintSize="433.6,113.6" sap2010:WorkflowViewState.IdRef="Assign_2">
+    <Assign DisplayName="Assign refresh_token from response to variable 'refresh_token'" sap:VirtualizedContainerService.HintSize="502.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_2">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[refresh_token]</OutArgument>
       </Assign.To>
@@ -281,7 +282,7 @@
         <InArgument x:TypeArguments="x:String">[JsonResponseObject("refresh_token").ToString()]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" Result="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="HTTP Request" EnableSSLVerification="True" EndPoint="https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token" sap:VirtualizedContainerService.HintSize="433.6,103.2" sap2010:WorkflowViewState.IdRef="HttpClient_2" Method="POST" TimeoutMS="6000">
+    <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" ResponseAttachment="{x:Null}" ResponseHeaders="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/xml" DisplayName="HTTP Request" EnableSSLVerification="True" EndPoint="https://sso.starconnect.id/auth/realms/git/protocol/openid-connect/token" sap:VirtualizedContainerService.HintSize="502.4,103.2" sap2010:WorkflowViewState.IdRef="HttpClient_2" Method="POST" Result="[responseContent]" StatusCode="[responseStatus]" TimeoutMS="6000">
       <ui:HttpClient.Attachments>
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.Attachments>
@@ -300,7 +301,7 @@
         <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
       </ui:HttpClient.UrlSegments>
     </ui:HttpClient>
-    <Assign DisplayName="Save HTTP response to variable 'response'" sap:VirtualizedContainerService.HintSize="433.6,113.6" sap2010:WorkflowViewState.IdRef="Assign_4">
+    <Assign DisplayName="Save HTTP response to variable 'response'" sap:VirtualizedContainerService.HintSize="502.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_4">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[response]</OutArgument>
       </Assign.To>
@@ -308,8 +309,8 @@
         <InArgument x:TypeArguments="x:String">[ResponseContent]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON response" sap:VirtualizedContainerService.HintSize="433.6,122.4" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_3" JsonObject="[JsonResponseObject]" JsonString="[ResponseContent]" />
-    <Assign DisplayName="Assign access_token from response to variable 'access_token'" sap:VirtualizedContainerService.HintSize="433.6,113.6" sap2010:WorkflowViewState.IdRef="Assign_5">
+    <ui:DeserializeJson x:TypeArguments="njl:JObject" JsonSample="{x:Null}" DisplayName="Deserialize JSON response" sap:VirtualizedContainerService.HintSize="502.4,122.4" sap2010:WorkflowViewState.IdRef="DeserializeJson`1_3" JsonObject="[JsonResponseObject]" JsonString="[ResponseContent]" />
+    <Assign DisplayName="Assign access_token from response to variable 'access_token'" sap:VirtualizedContainerService.HintSize="502.4,113.6" sap2010:WorkflowViewState.IdRef="Assign_5">
       <Assign.To>
         <OutArgument x:TypeArguments="x:String">[access_token]</OutArgument>
       </Assign.To>
@@ -317,12 +318,73 @@
         <InArgument x:TypeArguments="x:String">[JsonResponseObject("access_token").ToString()]</InArgument>
       </Assign.Value>
     </Assign>
-    <ui:MessageBox AutoCloseAfter="00:00:00" Buttons="Ok" ChosenButton="[ChosenButton]" DisplayName="Display pop-up message with variable access_token" sap:VirtualizedContainerService.HintSize="433.6,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_1" Text="[access_token]" TopMost="False">
-      <ui:MessageBox.Caption>
-        <InArgument x:TypeArguments="x:String">
-          <Literal x:TypeArguments="x:String" Value="" />
-        </InArgument>
-      </ui:MessageBox.Caption>
-    </ui:MessageBox>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="502.4,264.8" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,154.4" sap2010:WorkflowViewState.IdRef="Sequence_2">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:HttpClient Body="{x:Null}" ClientCertificate="{x:Null}" ClientCertificatePassword="{x:Null}" ConsumerKey="{x:Null}" ConsumerSecret="{x:Null}" ContinueOnError="{x:Null}" FileAttachments="{x:Null}" OAuth1Token="{x:Null}" OAuth1TokenSecret="{x:Null}" OAuth2Token="{x:Null}" Password="{x:Null}" ResourcePath="{x:Null}" Result="{x:Null}" SecureClientCertificatePassword="{x:Null}" SecurePassword="{x:Null}" StatusCode="{x:Null}" Username="{x:Null}" AcceptFormat="JSON" AuthenticationType="None" BodyFormat="application/json" DisplayName="Make HTTP POST request to &quot;https://ng-api-demo.gitsolutions.id/api/admin/tools/proccess-manager&quot; with headers" EnableSSLVerification="True" EndPoint="https://ng-api-demo.gitsolutions.id/api/admin/tools/proccess-manager" sap:VirtualizedContainerService.HintSize="382.4,94.4" sap2010:WorkflowViewState.IdRef="HttpClient_3" Method="POST" ResponseAttachment="[ResponseAttachment]" ResponseHeaders="[ResponeHeaders]" TimeoutMS="6000">
+            <ui:HttpClient.Attachments>
+              <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+            </ui:HttpClient.Attachments>
+            <ui:HttpClient.Cookies>
+              <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+            </ui:HttpClient.Cookies>
+            <ui:HttpClient.Headers>
+              <InArgument x:TypeArguments="x:String" x:Key="Authorization">[String.Format("Bearer {0}", access_token)]</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="Content-Type">application/json</InArgument>
+            </ui:HttpClient.Headers>
+            <ui:HttpClient.Parameters>
+              <InArgument x:TypeArguments="x:String" x:Key="isProcessManager">true</InArgument>
+              <InArgument x:TypeArguments="x:String" x:Key="param">[JsonConvert.SerializeObject(New Object() {New With { .name = "locationGroupId", .value = Nothing, .label = "Location Group", .description = Nothing, .visible = True }, New With { .name = "companyId", .value = Nothing, .label = "Company", .description = Nothing, .visible = True }, New With { .name = "organizationLevelId", .value = Nothing, .label = "Organization Level", .description = Nothing, .visible = True }, New With { .name = "organizationId", .value = Nothing, .label = "Organization", .description = Nothing, .visible = True }, New With { .name = "jobFamilyId", .value = Nothing, .label = "Job Family", .description = Nothing, .visible = True }, New With { .name = "jobId", .value = Nothing, .label = "Job", .description = Nothing, .visible = True }, New With { .name = "locationId", .value = Nothing, .label = "Location", .description = Nothing, .visible = True }, New With { .name = "positionLevelId", .value = Nothing, .label = "Position Level", .description = Nothing, .visible = True }, New With { .name = "employmentId", .value = Nothing, .label = "Employee", .description = Nothing, .visible = True }, New With { .name = "userGroup", .value = Nothing, .label = "User", .description = Nothing }, New With { .name = "managerEmploymentId", .value = Nothing, .label = "Manager", .description = Nothing, .visible = True }, New With { .name = "effectiveDate", .value = "2024-10-09", .label = "As Of Date", .description = "09-Oct-2024", .visible = True }, New With { .name = "terminationPeriod", .value = Nothing, .label = "Termination Period", .description = Nothing, .visible = True }, New With { .name = "hirePeriod", .value = Nothing, .label = "Hire Period", .description = Nothing, .visible = True }, New With { .name = "active", .value = Nothing, .label = "Active", .description = Nothing, .visible = True }})]</InArgument>
+            </ui:HttpClient.Parameters>
+            <ui:HttpClient.UrlSegments>
+              <scg:Dictionary x:TypeArguments="x:String, InArgument(x:String)" />
+            </ui:HttpClient.UrlSegments>
+          </ui:HttpClient>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="502.4,275.2" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="467.2,164.8" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Set payload" sap:VirtualizedContainerService.HintSize="433.6,104.8" sap2010:WorkflowViewState.IdRef="Assign_6">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[payload]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">["{ ""processName"": ""RPT_ASSIGNMENT"", ""isProcessManager"": true, ""param"": [ { ""name"": ""locationGroupId"", ""value"": null, ""label"": ""Location Group"", ""description"": null, ""visible"": true } ] }"]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="502.4,266.4" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="467.2,164.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign DisplayName="Save HTTP response to variable 'response'" sap:VirtualizedContainerService.HintSize="433.6,104.8" sap2010:WorkflowViewState.IdRef="Assign_7">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[response]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[responseContent]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
   </Sequence>
 </Activity>
