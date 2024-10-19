@@ -130,6 +130,16 @@
       <x:String>UiPath.IntelligentOCR.StudioWeb.Activities.DocumentClassification</x:String>
       <x:String>UiPath.DocumentProcessing.Contracts.Actions</x:String>
       <x:String>UiPath.IntelligentOCR.Actions.Abstractions</x:String>
+      <x:String>UiPath.UIAutomationNext</x:String>
+      <x:String>UiPath.UIAutomationNext.Enums</x:String>
+      <x:String>Microsoft</x:String>
+      <x:String>UiPath.UIAutomationNext.Models</x:String>
+      <x:String>UiPath.UIAutomationNext.Activities</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
+      <x:String>UiPath.Platform.ObjectLibrary</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>UiPath.Excel.Activities.Business</x:String>
+      <x:String>UiPath.Excel.Model</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -249,6 +259,11 @@
       <AssemblyReference>UiPath.DocumentProcessing.Contracts</AssemblyReference>
       <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
       <AssemblyReference>System.Reflection.MetadataLoadContext</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.Validation</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <sap:WorkflowViewStateService.ViewState>
@@ -261,6 +276,17 @@
       <Variable x:TypeArguments="upr:ILocalResource" Name="downloadedFile" />
       <Variable x:TypeArguments="upr:ILocalResource" Name="Result" />
       <Variable x:TypeArguments="x:String" Name="isFileDownloaded" />
+      <Variable x:TypeArguments="x:String" Name="ExcelFileOpened" />
+      <Variable x:TypeArguments="x:String" Name="biodataReportDown">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:String">biodata_report.xlsx</Literal>
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:String" Name="assReportDown">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:String">assignment_report.xlsx</Literal>
+        </Variable.Default>
+      </Variable>
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -294,7 +320,7 @@
         <OutArgument x:TypeArguments="x:String" x:Key="assignmentReportUrlArg">[assignment_report_url_arg]</OutArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <uasf:DownloadFileFromUrl FileName="{x:Null}" ResponseAttachment="{x:Null}" Timeout="{x:Null}" ConflictResolution="[UiPath.Activities.System.FileOperations.FileConflictBehavior.Replace]" DisplayName="Download biodata report" sap:VirtualizedContainerService.HintSize="416,122.4" sap2010:WorkflowViewState.IdRef="DownloadFileFromUrl_2" Url="[biodata_report_url_arg]" />
-    <uasf:DownloadFileFromUrl FileName="{x:Null}" ResponseAttachment="{x:Null}" Timeout="{x:Null}" ConflictResolution="[UiPath.Activities.System.FileOperations.FileConflictBehavior.Replace]" DisplayName="Download assignment report" sap:VirtualizedContainerService.HintSize="416,113.6" sap2010:WorkflowViewState.IdRef="DownloadFileFromUrl_5" Url="[assignment_report_url_arg]" />
+    <uasf:DownloadFileFromUrl ResponseAttachment="{x:Null}" Timeout="{x:Null}" ConflictResolution="[UiPath.Activities.System.FileOperations.FileConflictBehavior.Replace]" DisplayName="Download biodata report" FileName="[biodataReportDown]" sap:VirtualizedContainerService.HintSize="416,122.4" sap2010:WorkflowViewState.IdRef="DownloadFileFromUrl_2" Url="[biodata_report_url_arg]" />
+    <uasf:DownloadFileFromUrl ResponseAttachment="{x:Null}" Timeout="{x:Null}" ConflictResolution="[UiPath.Activities.System.FileOperations.FileConflictBehavior.Replace]" DisplayName="Download assignment report" FileName="[assReportDown]" sap:VirtualizedContainerService.HintSize="416,113.6" sap2010:WorkflowViewState.IdRef="DownloadFileFromUrl_5" Url="[assignment_report_url_arg]" />
   </Sequence>
 </Activity>
