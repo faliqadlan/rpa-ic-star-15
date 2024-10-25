@@ -1,7 +1,18 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="lookup_excel" this:lookup_excel.biodataReportDown="biodate_report.xlsx" this:lookup_excel.assRerportDown="assignment_report.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="lookup_excel" this:lookup_excel.biodataReportDown="biodate_report.xlsx" this:lookup_excel.assRerportDown="assignment_report.xlsx" this:lookup_excel.in_config_path="data\Config.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="biodataReportDown" Type="InArgument(x:String)" />
     <x:Property Name="assRerportDown" Type="InArgument(x:String)" />
+    <x:Property Name="in_config_path" Type="InArgument(x:String)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
+    <x:Property Name="config_path" Type="InArgument(x:String)" />
+    <x:Property Name="process_manager_path" Type="InOutArgument(x:String)">
+      <x:Property.Attributes>
+        <RequiredArgumentAttribute />
+      </x:Property.Attributes>
+    </x:Property>
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
@@ -103,6 +114,7 @@
       <x:String>System.ComponentModel.Design.Serialization</x:String>
       <x:String>System.Text.RegularExpressions</x:String>
       <x:String>Microsoft.VisualBasic.FileIO</x:String>
+      <x:String>UiPath.Platform.ResourceHandling</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -211,42 +223,59 @@
       <AssemblyReference>System.Collections.Concurrent</AssemblyReference>
       <AssemblyReference>UiPath.Workflow</AssemblyReference>
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
+      <AssemblyReference>UiPath.Platform</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="833.6000000000001,644" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <Sequence.Variables>
-      <Variable x:TypeArguments="sd:DataTable" Name="datatable">
-        <sap:WorkflowViewStateService.ViewState>
-          <scg:Dictionary x:TypeArguments="x:String, x:Object">
-            <x:String x:Key="SourceIdRef">ReadRange_1</x:String>
-            <x:String x:Key="SourcePropertyName">DataTable</x:String>
-          </scg:Dictionary>
-        </sap:WorkflowViewStateService.ViewState>
-      </Variable>
-    </Sequence.Variables>
+  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="807.2,904.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="451.2,358.4" sap2010:WorkflowViewState.IdRef="CommentOut_1">
-      <ui:CommentOut.Body>
-        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,248" sap2010:WorkflowViewState.IdRef="Sequence_3">
+    <If Condition="[Not String.IsNullOrEmpty(config_path)]" sap:VirtualizedContainerService.HintSize="500.8,424.8" sap2010:WorkflowViewState.IdRef="If_1">
+      <If.Then>
+        <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="467.2,164.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
           <sap:WorkflowViewStateService.ViewState>
             <scg:Dictionary x:TypeArguments="x:String, x:Object">
               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
             </scg:Dictionary>
           </sap:WorkflowViewStateService.ViewState>
-          <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelFilePath1 As String = &quot;C:\Users\faliq\OneDrive\Documents\UiPath\ic star 15\00052_SPM_X_2024.xlsx&quot;&#xA;Dim connectionString1 As String = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; excelFilePath1 &amp; &quot;;Extended Properties='Excel 12.0 Xml;HDR=YES;'&quot;&#xA;&#xA;Dim query As String = &quot;SELECT * FROM [Report$]&quot;&#xA;Dim dataTable As New DataTable()&#xA;&#xA;Using connection As New OleDb.OleDbConnection(connectionString1)&#xA;    connection.Open()&#xA;    Using command As New OleDb.OleDbCommand(query, connection)&#xA;        Using adapter As New OleDb.OleDbDataAdapter(command)&#xA;            adapter.Fill(dataTable)&#xA;        End Using&#xA;    End Using&#xA;End Using&#xA;&#xA;' Print the data using Console.WriteLine&#xA;For Each row As DataRow In dataTable.Rows&#xA;    For Each column As DataColumn In dataTable.Columns&#xA;&#x9;&#x9; System.Console.WriteLine(&quot;test colom&quot;)&#xA;         System.Console.WriteLine(row(column))&#xA;    Next&#xA;     System.Console.WriteLine&#xA;Next" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="382.4,188" sap2010:WorkflowViewState.IdRef="InvokeCode_2">
-            <ui:InvokeCode.Arguments>
-              <scg:Dictionary x:TypeArguments="x:String, Argument" />
-            </ui:InvokeCode.Arguments>
-          </ui:InvokeCode>
+          <Assign sap:VirtualizedContainerService.HintSize="433.6,104.8" sap2010:WorkflowViewState.IdRef="Assign_1">
+            <Assign.To>
+              <OutArgument x:TypeArguments="x:String">[in_config_path]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="x:String">[config_path]</InArgument>
+            </Assign.Value>
+          </Assign>
         </Sequence>
-      </ui:CommentOut.Body>
-    </ui:CommentOut>
-    <ui:ReadRange Range="{x:Null}" AddHeaders="True" DataTable="[datatable]" DisplayName="Read Range Workbook" sap:VirtualizedContainerService.HintSize="451.2,120" sap2010:WorkflowViewState.IdRef="ReadRange_1" SheetName="Report" WorkbookPath="C:\Users\faliq\Downloads\assignment_report.xlsx" />
-    <ui:ReadColumn Result="{x:Null}" DisplayName="Look up value in Excel using System File Workbook" sap:VirtualizedContainerService.HintSize="451.2,111.2" sap2010:WorkflowViewState.IdRef="ReadColumn_1" SheetName="Report" StartingCell="A1" WorkbookPath="[assRerportDown]" />
+      </If.Then>
+      <If.Else>
+        <Sequence DisplayName="Else" sap:VirtualizedContainerService.HintSize="416,89.6" sap2010:WorkflowViewState.IdRef="Sequence_5">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+        </Sequence>
+      </If.Else>
+    </If>
+    <ui:ReadCell WorkbookPathResource="{x:Null}" Cell="B4" DisplayName="Get process manager path from config" sap:VirtualizedContainerService.HintSize="500.8,120" sap2010:WorkflowViewState.IdRef="ReadCell_1" SheetName="Settings" WorkbookPath="[in_config_path]">
+      <ui:ReadCell.Result>
+        <OutArgument x:TypeArguments="x:String">[process_manager_path]</OutArgument>
+      </ui:ReadCell.Result>
+    </ui:ReadCell>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelFilePath1 As String = assPathArg&#xD;&#xA;Dim connectionString1 As String = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; excelFilePath1 &amp; &quot;;Extended Properties='Excel 12.0 Xml;HDR=YES;'&quot;&#xD;&#xA;&#xD;&#xA;Dim query As String = &quot;SELECT * FROM [Report$]&quot;&#xD;&#xA;Dim dataTable As New DataTable()&#xD;&#xA;&#xD;&#xA;Using connection As New OleDb.OleDbConnection(connectionString1)&#xD;&#xA;    connection.Open()&#xD;&#xA;    Using command As New OleDb.OleDbCommand(query, connection)&#xD;&#xA;        Using adapter As New OleDb.OleDbDataAdapter(command)&#xD;&#xA;            adapter.Fill(dataTable)&#xD;&#xA;        End Using&#xD;&#xA;    End Using&#xD;&#xA;End Using&#xD;&#xA;&#xD;&#xA;' Print the data using Console.WriteLine&#xD;&#xA;'For Each row As DataRow In dataTable.Rows&#xD;&#xA;'    For Each column As DataColumn In dataTable.Columns&#xD;&#xA;&#x9;&#x9; 'System.Console.WriteLine(&quot;test colom&quot;)&#xD;&#xA;'&#x9;&#x9;  System.Console.WriteLine((column))&#xD;&#xA;'&#x9;&#x9; System.Console.WriteLine(row(column))&#xD;&#xA; '   Next&#xD;&#xA;  '   System.Console.WriteLine&#xD;&#xA;'Next&#xD;&#xA;&#xD;&#xA;Dim noEmployeeArray As New List(Of String)()&#xD;&#xA;Dim nameEmployeeArray As New List(Of String)()&#xD;&#xA;Dim periodEndArray As New List(Of String)()&#xD;&#xA;&#xD;&#xA;' Get the current date and calculate the date 3 months ago&#xD;&#xA;Dim currentDate As DateTime = DateTime.Now&#xD;&#xA;Dim threeMonthsAgo As DateTime = currentDate.AddMonths(-3)&#xD;&#xA;&#xD;&#xA;' Get the specific row (row 4, which is index 3 in zero-based index)&#xD;&#xA;Dim rowStart As DataRow = dataTable.Rows(3)&#xD;&#xA;&#xD;&#xA;' Get the values from the specified columns&#xD;&#xA;Dim noEmployee As String = rowStart(&quot;Employee Assignment&quot;).ToString()&#xD;&#xA;Dim nameEmployee As String = rowStart(&quot;F2&quot;).ToString()&#xD;&#xA;Dim periodEnd As DateTime = DateTime.Parse(rowStart(&quot;F11&quot;).ToString())&#xD;&#xA;&#xD;&#xA;System.Console.WriteLine(&quot;test colom&quot;)&#xD;&#xA;&#xD;&#xA;' Check if the periodEnd date is within the last 3 months&#xD;&#xA;If periodEnd &gt;= threeMonthsAgo AndAlso periodEnd &lt;= currentDate Then&#xD;&#xA;    ' Store the values in the arrays&#xD;&#xA;    noEmployeeArray.Add(noEmployee)&#xD;&#xA;    nameEmployeeArray.Add(nameEmployee)&#xD;&#xA;    periodEndArray.Add(periodEnd.ToString())&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;' Print the results&#xD;&#xA;For i As Integer = 0 To noEmployeeArray.Count - 1&#xD;&#xA;    System.Console.WriteLine(noEmployeeArray(i))&#xD;&#xA;    System.Console.WriteLine(nameEmployeeArray(i))&#xD;&#xA;    System.Console.WriteLine(periodEndArray(i))&#xD;&#xA;Next" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="500.8,196.8" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+      <ui:InvokeCode.Arguments>
+        <InArgument x:TypeArguments="x:String" x:Key="assPathArg">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="process_manager_path +&quot;\&quot;+ assRerportDown" />
+        </InArgument>
+        <InArgument x:TypeArguments="x:String" x:Key="biodataPathArg">
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="process_manager_path +&quot;\&quot;+ biodataReportDown" />
+        </InArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="500.8,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;finish&quot;]" />
   </Sequence>
 </Activity>
