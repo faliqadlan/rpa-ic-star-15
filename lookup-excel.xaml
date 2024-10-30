@@ -1,7 +1,7 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="lookup_excel" this:lookup_excel.biodataReportDown="biodate_report.xlsx" this:lookup_excel.assRerportDown="assignment_report.xlsx" this:lookup_excel.in_config_path="data\Config.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:this="clr-namespace:" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="lookup_excel" this:lookup_excel.biodataReportDown="biodate_report.xlsx" this:lookup_excel.assReportDown="assignment_report.xlsx" this:lookup_excel.in_config_path="data\Config.xlsx" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:this="clr-namespace:" xmlns:ue="clr-namespace:UiPath.Excel;assembly=UiPath.Excel.Activities" xmlns:ueab="clr-namespace:UiPath.Excel.Activities.Business;assembly=UiPath.Excel.Activities" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="biodataReportDown" Type="InArgument(x:String)" />
-    <x:Property Name="assRerportDown" Type="InArgument(x:String)" />
+    <x:Property Name="assReportDown" Type="InArgument(x:String)" />
     <x:Property Name="in_config_path" Type="InArgument(x:String)">
       <x:Property.Attributes>
         <RequiredArgumentAttribute />
@@ -13,6 +13,10 @@
         <RequiredArgumentAttribute />
       </x:Property.Attributes>
     </x:Property>
+    <x:Property Name="assDataTable" Type="InOutArgument(sd:DataTable)" />
+    <x:Property Name="arg_noEmployeeList" Type="InOutArgument(s:String[])" />
+    <x:Property Name="arg_nameEmployeeList" Type="InOutArgument(s:String[])" />
+    <x:Property Name="arg_periodEndList" Type="InOutArgument(s:String[])" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
@@ -115,6 +119,7 @@
       <x:String>System.Text.RegularExpressions</x:String>
       <x:String>Microsoft.VisualBasic.FileIO</x:String>
       <x:String>UiPath.Platform.ResourceHandling</x:String>
+      <x:String>UiPath.Shared.Activities</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -224,16 +229,34 @@
       <AssemblyReference>UiPath.Workflow</AssemblyReference>
       <AssemblyReference>System.Text.RegularExpressions</AssemblyReference>
       <AssemblyReference>UiPath.Platform</AssemblyReference>
+      <AssemblyReference>UiPath.GoogleCloud.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Web.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.OCR.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.IntelligentOCR.StudioWeb.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.GSuite.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Testing.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="807.2,904.8" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="807.2,3528" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="assDataTable" />
+      <Variable x:TypeArguments="x:Int32" Name="index">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:String x:Key="SourceIdRef">ForEach`1_1</x:String>
+            <x:String x:Key="SourcePropertyName">CurrentIndex</x:String>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </Variable>
+    </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <If Condition="[Not String.IsNullOrEmpty(config_path)]" sap:VirtualizedContainerService.HintSize="500.8,424.8" sap2010:WorkflowViewState.IdRef="If_1">
+    <If Condition="[Not String.IsNullOrEmpty(config_path)]" sap:VirtualizedContainerService.HintSize="646.4,424.8" sap2010:WorkflowViewState.IdRef="If_1">
       <If.Then>
         <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="467.2,164.8" sap2010:WorkflowViewState.IdRef="Sequence_4">
           <sap:WorkflowViewStateService.ViewState>
@@ -261,21 +284,145 @@
         </Sequence>
       </If.Else>
     </If>
-    <ui:ReadCell WorkbookPathResource="{x:Null}" Cell="B4" DisplayName="Get process manager path from config" sap:VirtualizedContainerService.HintSize="500.8,120" sap2010:WorkflowViewState.IdRef="ReadCell_1" SheetName="Settings" WorkbookPath="[in_config_path]">
+    <ui:ReadCell WorkbookPathResource="{x:Null}" Cell="B4" DisplayName="Get process manager path from config" sap:VirtualizedContainerService.HintSize="646.4,120" sap2010:WorkflowViewState.IdRef="ReadCell_1" SheetName="Settings" WorkbookPath="[in_config_path]">
       <ui:ReadCell.Result>
         <OutArgument x:TypeArguments="x:String">[process_manager_path]</OutArgument>
       </ui:ReadCell.Result>
     </ui:ReadCell>
-    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelFilePath1 As String = assPathArg&#xD;&#xA;Dim connectionString1 As String = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; excelFilePath1 &amp; &quot;;Extended Properties='Excel 12.0 Xml;HDR=YES;'&quot;&#xD;&#xA;&#xD;&#xA;Dim query As String = &quot;SELECT * FROM [Report$]&quot;&#xD;&#xA;Dim dataTable As New DataTable()&#xD;&#xA;&#xD;&#xA;Using connection As New OleDb.OleDbConnection(connectionString1)&#xD;&#xA;    connection.Open()&#xD;&#xA;    Using command As New OleDb.OleDbCommand(query, connection)&#xD;&#xA;        Using adapter As New OleDb.OleDbDataAdapter(command)&#xD;&#xA;            adapter.Fill(dataTable)&#xD;&#xA;        End Using&#xD;&#xA;    End Using&#xD;&#xA;End Using&#xD;&#xA;&#xD;&#xA;' Print the data using Console.WriteLine&#xD;&#xA;'For Each row As DataRow In dataTable.Rows&#xD;&#xA;'    For Each column As DataColumn In dataTable.Columns&#xD;&#xA;&#x9;&#x9; 'System.Console.WriteLine(&quot;test colom&quot;)&#xD;&#xA;'&#x9;&#x9;  System.Console.WriteLine((column))&#xD;&#xA;'&#x9;&#x9; System.Console.WriteLine(row(column))&#xD;&#xA; '   Next&#xD;&#xA;  '   System.Console.WriteLine&#xD;&#xA;'Next&#xD;&#xA;&#xD;&#xA;Dim noEmployeeArray As New List(Of String)()&#xD;&#xA;Dim nameEmployeeArray As New List(Of String)()&#xD;&#xA;Dim periodEndArray As New List(Of String)()&#xD;&#xA;&#xD;&#xA;' Get the current date and calculate the date 3 months ago&#xD;&#xA;Dim currentDate As DateTime = DateTime.Now&#xD;&#xA;Dim threeMonthsAgo As DateTime = currentDate.AddMonths(-3)&#xD;&#xA;&#xD;&#xA;' Get the specific row (row 4, which is index 3 in zero-based index)&#xD;&#xA;Dim rowStart As DataRow = dataTable.Rows(3)&#xD;&#xA;&#xD;&#xA;' Get the values from the specified columns&#xD;&#xA;Dim noEmployee As String = rowStart(&quot;Employee Assignment&quot;).ToString()&#xD;&#xA;Dim nameEmployee As String = rowStart(&quot;F2&quot;).ToString()&#xD;&#xA;Dim periodEnd As DateTime = DateTime.Parse(rowStart(&quot;F11&quot;).ToString())&#xD;&#xA;&#xD;&#xA;System.Console.WriteLine(&quot;test colom&quot;)&#xD;&#xA;&#xD;&#xA;' Check if the periodEnd date is within the last 3 months&#xD;&#xA;If periodEnd &gt;= threeMonthsAgo AndAlso periodEnd &lt;= currentDate Then&#xD;&#xA;    ' Store the values in the arrays&#xD;&#xA;    noEmployeeArray.Add(noEmployee)&#xD;&#xA;    nameEmployeeArray.Add(nameEmployee)&#xD;&#xA;    periodEndArray.Add(periodEnd.ToString())&#xD;&#xA;End If&#xD;&#xA;&#xD;&#xA;' Print the results&#xD;&#xA;For i As Integer = 0 To noEmployeeArray.Count - 1&#xD;&#xA;    System.Console.WriteLine(noEmployeeArray(i))&#xD;&#xA;    System.Console.WriteLine(nameEmployeeArray(i))&#xD;&#xA;    System.Console.WriteLine(periodEndArray(i))&#xD;&#xA;Next" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="500.8,196.8" sap2010:WorkflowViewState.IdRef="InvokeCode_3">
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="Dim excelFilePath As String = assPathArg&#xD;&#xA;Dim connectionString As String = &quot;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=&quot; &amp; excelFilePath &amp; &quot;;Extended Properties='Excel 12.0 Xml;HDR=YES;'&quot;&#xD;&#xA;&#xD;&#xA;Dim query As String = &quot;SELECT * FROM [Report$]&quot;&#xD;&#xA;Dim dataTable As New DataTable()&#xD;&#xA;&#xD;&#xA;Try&#xD;&#xA;    Using connection As New OleDb.OleDbConnection(connectionString)&#xD;&#xA;        connection.Open()&#xD;&#xA;        Using command As New OleDb.OleDbCommand(query, connection)&#xD;&#xA;            Using adapter As New OleDb.OleDbDataAdapter(command)&#xD;&#xA;                adapter.Fill(dataTable)&#xD;&#xA;            End Using&#xD;&#xA;        End Using&#xD;&#xA;    End Using&#xD;&#xA;Catch ex As Exception&#xD;&#xA;    System.Console.WriteLine(&quot;Error: &quot; &amp; ex.Message)&#xD;&#xA;End Try&#xD;&#xA;&#xD;&#xA;Dim noEmployeeList As New List(Of String)()&#xD;&#xA;Dim nameEmployeeList As New List(Of String)()&#xD;&#xA;Dim periodEndList As New List(Of String)()&#xD;&#xA;&#xD;&#xA;Dim currentDate As DateTime = DateTime.Now&#xD;&#xA;Dim threeMonthsFromNow As DateTime = currentDate.AddMonths(3)&#xD;&#xA;&#xD;&#xA;For i As Integer = 3 To dataTable.Rows.Count - 1&#xD;&#xA;    Dim row As DataRow = dataTable.Rows(i)&#xD;&#xA;    &#xD;&#xA;    Dim periodEnd As DateTime&#xD;&#xA;    If DateTime.TryParse(row(10).ToString(), periodEnd) Then&#xD;&#xA;        If periodEnd &gt;= currentDate AndAlso periodEnd &lt;= threeMonthsFromNow Then&#xD;&#xA;            Dim noEmployee As String = row(0).ToString()&#xD;&#xA;            noEmployeeList.Add(noEmployee)&#xD;&#xA;            &#xD;&#xA;            Dim nameEmployee As String = row(1).ToString()&#xD;&#xA;            nameEmployeeList.Add(nameEmployee)&#xD;&#xA;            &#xD;&#xA;            periodEndList.Add(periodEnd.ToString())&#xD;&#xA;        End If&#xD;&#xA;    End If&#xD;&#xA;Next&#xD;&#xA;&#xD;&#xA;For i As Integer = 0 To noEmployeeList.Count - 1&#xD;&#xA;    System.Console.WriteLine(&quot;Employee No: &quot; &amp; noEmployeeList(i))&#xD;&#xA;    System.Console.WriteLine(&quot;Employee Name: &quot; &amp; nameEmployeeList(i))&#xD;&#xA;    If i &lt; periodEndList.Count Then&#xD;&#xA;        System.Console.WriteLine(&quot;Period End: &quot; &amp; periodEndList(i))&#xD;&#xA;    End If&#xD;&#xA;    System.Console.WriteLine(&quot;-------------------------&quot;)&#xD;&#xA;Next&#xD;&#xA;&#xD;&#xA;out_noEmployeeList = noEmployeeList.ToArray()&#xD;&#xA;out_nameEmployeeList= nameEmployeeList.ToArray()&#xD;&#xA;out_periodEndList = periodEndList.ToArray()" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="646.4,196.8" sap2010:WorkflowViewState.IdRef="InvokeCode_4">
       <ui:InvokeCode.Arguments>
         <InArgument x:TypeArguments="x:String" x:Key="assPathArg">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="process_manager_path +&quot;\&quot;+ assRerportDown" />
+          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="process_manager_path +&quot;\&quot;+ assReportDown" />
         </InArgument>
-        <InArgument x:TypeArguments="x:String" x:Key="biodataPathArg">
-          <VisualBasicValue x:TypeArguments="x:String" ExpressionText="process_manager_path +&quot;\&quot;+ biodataReportDown" />
-        </InArgument>
+        <OutArgument x:TypeArguments="s:String[]" x:Key="out_noEmployeeList">
+          <VisualBasicReference x:TypeArguments="s:String[]" ExpressionText="arg_noEmployeeList" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="s:String[]" x:Key="out_nameEmployeeList ">
+          <VisualBasicReference x:TypeArguments="s:String[]" ExpressionText="arg_nameEmployeeList" />
+        </OutArgument>
+        <OutArgument x:TypeArguments="s:String[]" x:Key="out_periodEndList ">
+          <VisualBasicReference x:TypeArguments="s:String[]" ExpressionText="arg_periodEndList" />
+        </OutArgument>
       </ui:InvokeCode.Arguments>
     </ui:InvokeCode>
-    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="500.8,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[&quot;finish&quot;]" />
+    <ui:BuildDataTable DataTable="[assDataTable]" DisplayName="Build Data Table" sap:VirtualizedContainerService.HintSize="646.4,92" sap2010:WorkflowViewState.IdRef="BuildDataTable_1" TableInfo="&lt;NewDataSet&gt;&#xD;&#xA;  &lt;xs:schema id=&quot;NewDataSet&quot; xmlns=&quot;&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot; xmlns:msdata=&quot;urn:schemas-microsoft-com:xml-msdata&quot;&gt;&#xD;&#xA;    &lt;xs:element name=&quot;NewDataSet&quot; msdata:IsDataSet=&quot;true&quot; msdata:MainDataTable=&quot;TableName&quot; msdata:UseCurrentLocale=&quot;true&quot;&gt;&#xD;&#xA;      &lt;xs:complexType&gt;&#xD;&#xA;        &lt;xs:choice minOccurs=&quot;0&quot; maxOccurs=&quot;unbounded&quot;&gt;&#xD;&#xA;          &lt;xs:element name=&quot;TableName&quot;&gt;&#xD;&#xA;            &lt;xs:complexType&gt;&#xD;&#xA;              &lt;xs:sequence&gt;&#xD;&#xA;                &lt;xs:element name=&quot;no_employee&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;name_employee&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;                &lt;xs:element name=&quot;period_end&quot; msdata:Caption=&quot;&quot; type=&quot;xs:string&quot; minOccurs=&quot;0&quot; /&gt;&#xD;&#xA;              &lt;/xs:sequence&gt;&#xD;&#xA;            &lt;/xs:complexType&gt;&#xD;&#xA;          &lt;/xs:element&gt;&#xD;&#xA;        &lt;/xs:choice&gt;&#xD;&#xA;      &lt;/xs:complexType&gt;&#xD;&#xA;      &lt;xs:unique name=&quot;Constraint1&quot;&gt;&#xD;&#xA;        &lt;xs:selector xpath=&quot;.//TableName&quot; /&gt;&#xD;&#xA;        &lt;xs:field xpath=&quot;no_employee&quot; /&gt;&#xD;&#xA;      &lt;/xs:unique&gt;&#xD;&#xA;    &lt;/xs:element&gt;&#xD;&#xA;  &lt;/xs:schema&gt;&#xD;&#xA;  &lt;TableName&gt;&#xD;&#xA;    &lt;no_employee /&gt;&#xD;&#xA;  &lt;/TableName&gt;&#xD;&#xA;&lt;/NewDataSet&gt;" />
+    <ui:ForEach x:TypeArguments="x:Int32" CurrentIndex="[index]" DisplayName="For Each currentNumber" sap:VirtualizedContainerService.HintSize="646.4,417.6" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[Enumerable.Range(0, arg_noEmployeeList.Length)]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:Int32">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Int32" Name="currentNumber" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,271.2" sap2010:WorkflowViewState.IdRef="Sequence_13">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:AddDataRow DataRow="{x:Null}" ArrayRow="[New Object() {arg_noEmployeeList(index), arg_nameEmployeeList(index), arg_periodEndList(index)}]" DataTable="[assDataTable]" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="382.4,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_1" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+    </ui:ForEach>
+    <ui:OutputDataTable Text="{x:Null}" DataTable="[assDataTable]" DisplayName="Output Data Table as Text" sap:VirtualizedContainerService.HintSize="646.4,112.8" sap2010:WorkflowViewState.IdRef="OutputDataTable_1" />
+    <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="646.4,117.6" sap2010:WorkflowViewState.IdRef="MessageBox_5" Text="[assDataTable]" />
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="646.4,275.2" sap2010:WorkflowViewState.IdRef="CommentOut_7">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="467.2,164.8" sap2010:WorkflowViewState.IdRef="Sequence_14">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <Assign sap:VirtualizedContainerService.HintSize="433.6,104.8" sap2010:WorkflowViewState.IdRef="Assign_2">
+            <Assign.To>
+              <OutArgument x:TypeArguments="sd:DataTable">[assDataTable]</OutArgument>
+            </Assign.To>
+            <Assign.Value>
+              <InArgument x:TypeArguments="sd:DataTable">[New System.Data.DataTable]</InArgument>
+            </Assign.Value>
+          </Assign>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="646.4,885.6" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="611.2,775.2" sap2010:WorkflowViewState.IdRef="Sequence_9">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ueab:ExcelProcessScopeX DisplayAlerts="{x:Null}" ExistingProcessAction="{x:Null}" FileConflictResolution="{x:Null}" LaunchMethod="{x:Null}" LaunchTimeout="{x:Null}" MacroSettings="{x:Null}" ProcessMode="{x:Null}" ShowExcelWindow="{x:Null}" DisplayName="Excel Process Scope" sap:VirtualizedContainerService.HintSize="577.6,715.2" sap2010:WorkflowViewState.IdRef="ExcelProcessScopeX_1">
+            <ueab:ExcelProcessScopeX.Body>
+              <ActivityAction x:TypeArguments="ui:IExcelProcess">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="ui:IExcelProcess" Name="ExcelProcessScopeTag" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="544,605.6" sap2010:WorkflowViewState.IdRef="Sequence_7">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ueab:ExcelApplicationCard Password="{x:Null}" ReadFormatting="{x:Null}" SensitivityLabel="{x:Null}" DisplayName="Use Excel File" sap:VirtualizedContainerService.HintSize="510.4,545.6" sap2010:WorkflowViewState.IdRef="ExcelApplicationCard_1" ResizeWindow="None" SensitivityOperation="None" WorkbookPath="[process_manager_path + &quot;\&quot; + assReportDown]">
+                    <ueab:ExcelApplicationCard.Body>
+                      <ActivityAction x:TypeArguments="ue:IWorkbookQuickHandle">
+                        <ActivityAction.Argument>
+                          <DelegateInArgument x:TypeArguments="ue:IWorkbookQuickHandle" Name="Excel" />
+                        </ActivityAction.Argument>
+                        <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="476.8,252.8" sap2010:WorkflowViewState.IdRef="Sequence_8">
+                          <sap:WorkflowViewStateService.ViewState>
+                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            </scg:Dictionary>
+                          </sap:WorkflowViewStateService.ViewState>
+                          <ueab:ReadRangeX DisplayName="Read Range" HasHeaders="False" sap:VirtualizedContainerService.HintSize="443.2,192.8" sap2010:WorkflowViewState.IdRef="ReadRangeX_1" Range="[Excel.Sheet(&quot;Report&quot;).Range(&quot;A4:A&quot;)]" SaveTo="[assDataTable]" />
+                        </Sequence>
+                      </ActivityAction>
+                    </ueab:ExcelApplicationCard.Body>
+                  </ueab:ExcelApplicationCard>
+                </Sequence>
+              </ActivityAction>
+            </ueab:ExcelProcessScopeX.Body>
+          </ueab:ExcelProcessScopeX>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="646.4,279.2" sap2010:WorkflowViewState.IdRef="CommentOut_4">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,168.8" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="382.4,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_3" Text="[assDataTable]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="646.4,281.6" sap2010:WorkflowViewState.IdRef="CommentOut_3">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,171.2" sap2010:WorkflowViewState.IdRef="Sequence_11">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:ReadRange WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[assDataTable]" DisplayName="Read Range Workbook" sap:VirtualizedContainerService.HintSize="382.4,111.2" sap2010:WorkflowViewState.IdRef="ReadRange_2" Range="A4:A" SheetName="Report" WorkbookPath="[process_manager_path + &quot;\&quot; + assReportDown]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="646.4,270.4" sap2010:WorkflowViewState.IdRef="CommentOut_5">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,168.8" sap2010:WorkflowViewState.IdRef="Sequence_12">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:MessageBox Caption="{x:Null}" ChosenButton="{x:Null}" AutoCloseAfter="00:00:00" DisplayName="Message Box" sap:VirtualizedContainerService.HintSize="382.4,108.8" sap2010:WorkflowViewState.IdRef="MessageBox_2" Text="[assDataTable]" />
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
   </Sequence>
 </Activity>
