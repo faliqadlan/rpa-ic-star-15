@@ -13,7 +13,6 @@
         <RequiredArgumentAttribute />
       </x:Property.Attributes>
     </x:Property>
-    <x:Property Name="assDataTable" Type="InOutArgument(sd:DataTable)" />
     <x:Property Name="arg_noEmployeeList" Type="InOutArgument(s:String[])" />
     <x:Property Name="arg_nameEmployeeList" Type="InOutArgument(s:String[])" />
     <x:Property Name="arg_periodEndList" Type="InOutArgument(s:String[])" />
@@ -263,7 +262,7 @@
       <AssemblyReference>DocumentFormat.OpenXml</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="807.2,6744" sap2010:WorkflowViewState.IdRef="Sequence_1">
+  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="lookup_excel" sap:VirtualizedContainerService.HintSize="807.2,7734.4" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <Sequence.Variables>
       <Variable x:TypeArguments="sd:DataTable" Name="assDataTable" />
       <Variable x:TypeArguments="x:Int32" Name="index">
@@ -274,7 +273,11 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </Variable>
-      <Variable x:TypeArguments="x:Int32" Name="addEmailIndex" />
+      <Variable x:TypeArguments="x:Int32" Name="addEmailIndex">
+        <Variable.Default>
+          <Literal x:TypeArguments="x:Int32" Value="1" />
+        </Variable.Default>
+      </Variable>
       <Variable x:TypeArguments="x:Int32" Name="countMatchedEntity" />
       <Variable x:TypeArguments="x:String" Name="templatePath" />
       <Variable x:TypeArguments="scg:IList(i:contractSchedules)" Name="entityTemplates" />
@@ -400,13 +403,13 @@
     </ui:ForEach>
     <uda:QueryEntityRecords x:TypeArguments="i:contractSchedules" FilterArguments="{x:Null}" FilterValues="{x:Null}" TotalRecords="{x:Null}" ContinueOnError="False" DisplayName="Query Entity Records" EntityId="c502a0ac-e296-ef11-8473-000d3adbee49" ExpansionDepth="2" sap:VirtualizedContainerService.HintSize="584,172.8" sap2010:WorkflowViewState.IdRef="QueryEntityRecords`1_2" OutputRecords="[contractSchedulesDataTable]" QueriedEntityId="c502a0ac-e296-ef11-8473-000d3adbee49" Skip="0" SortAscending="True" SortByField="Id" TimeoutInMs="30000" Top="100" />
     <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="584,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[contractSchedulesDataTable]" />
-    <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[assDataTable]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="584,3064" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+    <ui:ForEachRow ColumnNames="{x:Null}" CurrentIndex="{x:Null}" DataTable="[assDataTable]" DisplayName="For Each Row in Data Table" sap:VirtualizedContainerService.HintSize="584,3238.4" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
       <ui:ForEachRow.Body>
         <ActivityAction x:TypeArguments="sd:DataRow">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="sd:DataRow" Name="CurrentRow" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="550.4,2866.4" sap2010:WorkflowViewState.IdRef="Sequence_16">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="550.4,3040.8" sap2010:WorkflowViewState.IdRef="Sequence_16">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -464,10 +467,10 @@
                 </Sequence>
               </If.Else>
             </If>
-            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="516.8,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[noEmployeeCurrent + &quot;-&quot; + countMatchedEntity.ToString() + &quot;-&quot; + noEmployeeCurrent]" />
-            <If Condition="[countMatchedEntity &gt; 0]" sap:VirtualizedContainerService.HintSize="516.8,1977.6" sap2010:WorkflowViewState.IdRef="If_3">
+            <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="516.8,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Trace" Message="[noEmployeeCurrent + &quot;-&quot; + countMatchedEntity.ToString() + &quot;-&quot;]" />
+            <If Condition="[countMatchedEntity &gt; 0]" sap:VirtualizedContainerService.HintSize="516.8,2152" sap2010:WorkflowViewState.IdRef="If_3">
               <If.Then>
-                <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="483.2,1154.4" sap2010:WorkflowViewState.IdRef="Sequence_21">
+                <Sequence DisplayName="Then" sap:VirtualizedContainerService.HintSize="483.2,1328.8" sap2010:WorkflowViewState.IdRef="Sequence_21">
                   <Sequence.Variables>
                     <Variable x:TypeArguments="scg:IList(i:contractSchedules)" Name="updateEntity" />
                   </Sequence.Variables>
@@ -499,13 +502,13 @@
                       </scg:List>
                     </uda:QueryEntityRecords.FilterValues>
                   </uda:QueryEntityRecords>
-                  <ui:ForEach x:TypeArguments="i:contractSchedules" CurrentIndex="{x:Null}" DisplayName="For Each currentEntityUpdate" sap:VirtualizedContainerService.HintSize="449.6,921.6" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[updateEntity]">
+                  <ui:ForEach x:TypeArguments="i:contractSchedules" CurrentIndex="{x:Null}" DisplayName="For Each currentEntityUpdate" sap:VirtualizedContainerService.HintSize="449.6,1096" sap2010:WorkflowViewState.IdRef="ForEach`1_4" Values="[updateEntity]">
                     <ui:ForEach.Body>
                       <ActivityAction x:TypeArguments="i:contractSchedules">
                         <ActivityAction.Argument>
                           <DelegateInArgument x:TypeArguments="i:contractSchedules" Name="currentEntityUpdate" />
                         </ActivityAction.Argument>
-                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,784" sap2010:WorkflowViewState.IdRef="Sequence_23">
+                        <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,958.4" sap2010:WorkflowViewState.IdRef="Sequence_23">
                           <sap:WorkflowViewStateService.ViewState>
                             <scg:Dictionary x:TypeArguments="x:String, x:Object">
                               <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -522,6 +525,7 @@
                             </ui:InvokeCode.Arguments>
                           </ui:InvokeCode>
                           <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382.4,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_3" Level="Info" Message="[CurrentRow(&quot;period_end&quot;).ToString + &quot;------------ &quot;+periodEndDTO.ToString]" />
+                          <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="382.4,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_6" Level="Warn" Message="[CurrentRow]" />
                           <uda:UpdateEntityRecord x:TypeArguments="i:contractSchedules" InputEntity="{x:Null}" OutputEntity="{x:Null}" VisibleDynamicPropertiesInfo="{x:Null}" ContinueOnError="False" DisplayName="Update Entity Record" EntityId="c502a0ac-e296-ef11-8473-000d3adbee49" ExpansionDepth="2" sap:VirtualizedContainerService.HintSize="382.4,352.8" sap2010:WorkflowViewState.IdRef="UpdateEntityRecord`1_2" InputEntityInFieldView="[new ic_star_15.contractSchedules() With {  .email = CurrentRow(&quot;email&quot;).ToString,  .name = CurrentRow(&quot;name_employee&quot;).ToString,  .periodEndDate = PeriodEndDTO, .Id = currentEntityUpdate.Id }]" IsInRecordView="False" RecordId="[currentEntityUpdate.Id]" TimeoutInMs="30000">
                             <uda:UpdateEntityRecord.State>
                               <udam:RecordState RequiredFieldCount="5">
@@ -625,7 +629,8 @@
             <uda:GroupFilter Index="0" Operator="AND">
               <uda:GroupFilter.Filters>
                 <scg:List x:TypeArguments="uda:SimpleFilter" Capacity="4">
-                  <uda:SimpleFilter ExpressionValue="{x:Null}" FieldName="periodEndDate" FieldType="UiPath.DataService.Core.Models.EntityField" Operator="=" ValueIndex="0" />
+                  <uda:SimpleFilter ExpressionValue="{x:Null}" FieldName="periodEndDate" FieldType="UiPath.DataService.Core.Models.EntityField" Operator="&gt;" ValueIndex="0" />
+                  <uda:SimpleFilter ExpressionValue="{x:Null}" FieldName="periodEndDate" FieldType="UiPath.DataService.Core.Models.EntityField" Operator="&lt;" ValueIndex="1" />
                 </scg:List>
               </uda:GroupFilter.Filters>
               <uda:GroupFilter.Groups>
@@ -637,26 +642,38 @@
       </uda:QueryEntityRecords.FilterArguments>
       <uda:QueryEntityRecords.FilterValues>
         <scg:List x:TypeArguments="InArgument" Capacity="4">
-          <InArgument x:TypeArguments="s:DateTimeOffset">[contractSchedulesDataTable.Where(Function(c) c.periodEndDate.HasValue AndAlso c.periodEndDate.Value &gt;= DateTimeOffset.Now AndAlso c.periodEndDate.Value &lt;= DateTimeOffset.Now.AddMonths(3)).Select(Function(c) c.periodEndDate.Value).FirstOrDefault()]</InArgument>
+          <InArgument x:TypeArguments="s:DateTimeOffset">[DateTimeOffset.Now.AddDays(-1)]</InArgument>
+          <InArgument x:TypeArguments="s:DateTimeOffset">[DateTimeOffset.Now.AddMonths(3).AddDays(1)]</InArgument>
         </scg:List>
       </uda:QueryEntityRecords.FilterValues>
     </uda:QueryEntityRecords>
-    <ui:ForEach x:TypeArguments="i:contractSchedules" CurrentIndex="{x:Null}" DisplayName="For Each currentcontractSchedules" sap:VirtualizedContainerService.HintSize="584,408.8" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[entityTemplates]">
+    <ui:CollectionToDataTable x:TypeArguments="i:contractSchedules" Collection="[entityTemplates]" DataTable="[templateDT]" DisplayName="Collection to DataTable" sap:VirtualizedContainerService.HintSize="584,122.4" sap2010:WorkflowViewState.IdRef="CollectionToDataTable`1_1" />
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="584,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_5" Message="[templateDT]" />
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="For Each currentItem" sap:VirtualizedContainerService.HintSize="584,417.6" sap2010:WorkflowViewState.IdRef="ForEach`1_6" Values="[{&quot;UpdateTime&quot;, &quot;CreateTime&quot;, &quot;CreatedBy&quot;, &quot;UpdatedBy&quot;, &quot;Id&quot;}]">
       <ui:ForEach.Body>
-        <ActivityAction x:TypeArguments="i:contractSchedules">
+        <ActivityAction x:TypeArguments="x:String">
           <ActivityAction.Argument>
-            <DelegateInArgument x:TypeArguments="i:contractSchedules" Name="currentcontractSchedules" />
+            <DelegateInArgument x:TypeArguments="x:String" Name="currentItem" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,271.2" sap2010:WorkflowViewState.IdRef="Sequence_26">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="416,271.2" sap2010:WorkflowViewState.IdRef="Sequence_29">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:AddDataRow ArrayRow="{x:Null}" DataRow="{x:Null}" DataTable="{x:Null}" DisplayName="Add Data Row" sap:VirtualizedContainerService.HintSize="382.4,211.2" sap2010:WorkflowViewState.IdRef="AddDataRow_2" />
+            <ui:RemoveDataColumn Column="{x:Null}" ColumnIndex="{x:Null}" ColumnName="[currentItem]" DataTable="[templateDT]" DisplayName="Remove Data Column" sap:VirtualizedContainerService.HintSize="382.4,211.2" sap2010:WorkflowViewState.IdRef="RemoveDataColumn_2" />
           </Sequence>
         </ActivityAction>
       </ui:ForEach.Body>
     </ui:ForEach>
+    <ui:InvokeCode ContinueOnError="{x:Null}" Code="' Define the columns you want to format&#xD;&#xA;Dim columnsToFormat As String() = {&quot;scheduleDate&quot;, &quot;periodEndDate&quot;}&#xD;&#xA;&#xD;&#xA;' Loop through each row in the DataTable&#xD;&#xA;For Each row As DataRow In yourDataTable.Rows&#xD;&#xA;    For Each column As String In columnsToFormat&#xD;&#xA;        ' Parse the date and format it to &quot;MM/dd/yyyy&quot;&#xD;&#xA;        Dim dateValue As DateTime&#xD;&#xA;        If DateTime.TryParse(row(column).ToString(), dateValue) Then&#xD;&#xA;            row(column) = dateValue.ToString(&quot;MM/dd/yyyy&quot;)&#xD;&#xA;        End If&#xD;&#xA;    Next&#xD;&#xA;Next" DisplayName="Invoke Code" sap:VirtualizedContainerService.HintSize="584,196.8" sap2010:WorkflowViewState.IdRef="InvokeCode_8">
+      <ui:InvokeCode.Arguments>
+        <InOutArgument x:TypeArguments="sd:DataTable" x:Key="yourDataTable">
+          <VisualBasicReference x:TypeArguments="sd:DataTable" ExpressionText="templateDT" />
+        </InOutArgument>
+      </ui:InvokeCode.Arguments>
+    </ui:InvokeCode>
+    <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="584,174.4" sap2010:WorkflowViewState.IdRef="LogMessage_7" Message="[templatePath]" />
+    <ui:WriteRange StartingCell="{x:Null}" WorkbookPathResource="{x:Null}" AddHeaders="True" DataTable="[templateDT]" DisplayName="Write Range Workbook" sap:VirtualizedContainerService.HintSize="584,139.2" sap2010:WorkflowViewState.IdRef="WriteRange_2" SheetName="schedule" WorkbookPath="[templatePath + &quot;\&quot;+ &quot;template-schedule.xlsx&quot;]" />
   </Sequence>
 </Activity>
