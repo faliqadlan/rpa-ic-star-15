@@ -1,25 +1,6 @@
-﻿<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:upr="clr-namespace:UiPath.Platform.ResourceHandling;assembly=UiPath.Platform" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Main" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:i="clr-namespace:ic_star_15;assembly=DataService.ic_star_15" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
-    <x:Property Name="access_token_arg" Type="InOutArgument(x:String)">
-      <x:Property.Attributes>
-        <RequiredArgumentAttribute />
-      </x:Property.Attributes>
-    </x:Property>
-    <x:Property Name="profile_token_arg" Type="InOutArgument(x:String)">
-      <x:Property.Attributes>
-        <RequiredArgumentAttribute />
-      </x:Property.Attributes>
-    </x:Property>
-    <x:Property Name="biodata_report_url_arg" Type="OutArgument(x:String)">
-      <x:Property.Attributes>
-        <RequiredArgumentAttribute />
-      </x:Property.Attributes>
-    </x:Property>
-    <x:Property Name="assignment_report_url_arg" Type="OutArgument(x:String)">
-      <x:Property.Attributes>
-        <RequiredArgumentAttribute />
-      </x:Property.Attributes>
-    </x:Property>
+    <x:Property Name="config_path" Type="InArgument(x:String)" />
   </x:Members>
   <VisualBasic.Settings>
     <x:Null />
@@ -256,25 +237,54 @@
       <x:Boolean x:Key="ShouldExpandAll">True</x:Boolean>
     </scg:Dictionary>
   </sap:WorkflowViewStateService.ViewState>
-  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="850.4000000000001,562.84" sap2010:WorkflowViewState.IdRef="Sequence_1">
-    <Sequence.Variables>
-      <Variable x:TypeArguments="upr:ILocalResource" Name="downloadedFile" />
-      <Variable x:TypeArguments="upr:ILocalResource" Name="Result" />
-      <Variable x:TypeArguments="x:String" Name="isFileDownloaded" />
-    </Sequence.Variables>
+  <Sequence sap2010:Annotation.AnnotationText="" DisplayName="Main Sequence" sap:VirtualizedContainerService.HintSize="807.2,620" sap2010:WorkflowViewState.IdRef="Sequence_1">
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
         <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="request-api - Invoke Workflow File (request-api.xaml)" sap:VirtualizedContainerService.HintSize="416,197.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="request-api.xaml">
+    <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="request-api - Invoke Workflow File (request-api.xaml)" sap:VirtualizedContainerService.HintSize="451.2,206.4" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_1" UnSafe="False" WorkflowFileName="request-api.xaml">
       <ui:InvokeWorkflowFile.Arguments>
         <InOutArgument x:TypeArguments="x:String" x:Key="access_token_arg" />
         <InOutArgument x:TypeArguments="x:String" x:Key="profile_token_arg" />
         <OutArgument x:TypeArguments="x:String" x:Key="biodata_report_url_arg" />
         <OutArgument x:TypeArguments="x:String" x:Key="assignment_report_url_arg" />
+        <InArgument x:TypeArguments="x:String" x:Key="assReportDown" />
+        <InArgument x:TypeArguments="x:String" x:Key="biodataReportDown" />
+        <InOutArgument x:TypeArguments="x:String" x:Key="user_name" />
+        <InOutArgument x:TypeArguments="x:String" x:Key="password" />
+        <InArgument x:TypeArguments="x:String" x:Key="in_config_path" />
+        <InArgument x:TypeArguments="x:String" x:Key="config_path">[config_path]</InArgument>
       </ui:InvokeWorkflowFile.Arguments>
     </ui:InvokeWorkflowFile>
+    <ui:CommentOut DisplayName="Comment Out" sap:VirtualizedContainerService.HintSize="451.2,359.2" sap2010:WorkflowViewState.IdRef="CommentOut_2">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="Ignored Activities" sap:VirtualizedContainerService.HintSize="416,257.6" sap2010:WorkflowViewState.IdRef="Sequence_3">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:InvokeWorkflowFile ArgumentsVariable="{x:Null}" ContinueOnError="{x:Null}" DisplayName="lookup-excel - Invoke Workflow File (lookup-excel.xaml)" sap:VirtualizedContainerService.HintSize="382.4,197.6" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_3" UnSafe="False" WorkflowFileName="lookup-excel.xaml">
+            <ui:InvokeWorkflowFile.Arguments>
+              <InArgument x:TypeArguments="x:String" x:Key="biodataReportDown" />
+              <InArgument x:TypeArguments="x:String" x:Key="assReportDown" />
+              <InArgument x:TypeArguments="x:String" x:Key="in_config_path" />
+              <InArgument x:TypeArguments="x:String" x:Key="config_path" />
+              <InOutArgument x:TypeArguments="x:String" x:Key="process_manager_path" />
+              <InOutArgument x:TypeArguments="sd:DataTable" x:Key="assDataTable" />
+              <InOutArgument x:TypeArguments="s:String[]" x:Key="arg_noEmployeeList" />
+              <InOutArgument x:TypeArguments="s:String[]" x:Key="arg_nameEmployeeList" />
+              <InOutArgument x:TypeArguments="s:String[]" x:Key="arg_periodEndList" />
+              <InArgument x:TypeArguments="s:String[]" x:Key="arg_emailEmployeeList" />
+              <InArgument x:TypeArguments="x:String" x:Key="noEmployeeCurrent" />
+              <InArgument x:TypeArguments="scg:IList(i:contractSchedules)" x:Key="contractSchedulesDataTable" />
+              <OutArgument x:TypeArguments="x:Boolean" x:Key="matchedRow" />
+            </ui:InvokeWorkflowFile.Arguments>
+          </ui:InvokeWorkflowFile>
+        </Sequence>
+      </ui:CommentOut.Body>
+    </ui:CommentOut>
   </Sequence>
 </Activity>

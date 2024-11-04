@@ -6,49 +6,13 @@
   "OriginalIconFileName": null,
   "Arguments": [
     {
-      "Name": "access_token_arg",
-      "DisplayName": "access_token_arg",
+      "Name": "config_path",
+      "DisplayName": "config_path",
       "Category": null,
       "Tooltip": null,
       "Placeholder": null,
       "Widget": null,
-      "IsRequired": true,
-      "IsPrincipal": true,
-      "ArgumentType": 0,
-      "DataSourceItems": null
-    },
-    {
-      "Name": "profile_token_arg",
-      "DisplayName": "profile_token_arg",
-      "Category": null,
-      "Tooltip": null,
-      "Placeholder": null,
-      "Widget": null,
-      "IsRequired": true,
-      "IsPrincipal": true,
-      "ArgumentType": 0,
-      "DataSourceItems": null
-    },
-    {
-      "Name": "biodata_report_url_arg",
-      "DisplayName": "biodata_report_url_arg",
-      "Category": null,
-      "Tooltip": null,
-      "Placeholder": null,
-      "Widget": null,
-      "IsRequired": true,
-      "IsPrincipal": true,
-      "ArgumentType": 0,
-      "DataSourceItems": null
-    },
-    {
-      "Name": "assignment_report_url_arg",
-      "DisplayName": "assignment_report_url_arg",
-      "Category": null,
-      "Tooltip": null,
-      "Placeholder": null,
-      "Widget": null,
-      "IsRequired": true,
+      "IsRequired": false,
       "IsPrincipal": true,
       "ArgumentType": 0,
       "DataSourceItems": null
