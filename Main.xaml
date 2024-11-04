@@ -263,7 +263,7 @@
         <InArgument x:TypeArguments="x:String" x:Key="biodataReportDown" />
         <InArgument x:TypeArguments="x:String" x:Key="assReportDown" />
         <InArgument x:TypeArguments="x:String" x:Key="in_config_path" />
-        <InArgument x:TypeArguments="x:String" x:Key="config_path" />
+        <InArgument x:TypeArguments="x:String" x:Key="config_path">[config_path]</InArgument>
         <InOutArgument x:TypeArguments="x:String" x:Key="process_manager_path" />
         <InOutArgument x:TypeArguments="s:String[]" x:Key="arg_noEmployeeList" />
         <InOutArgument x:TypeArguments="s:String[]" x:Key="arg_nameEmployeeList" />
